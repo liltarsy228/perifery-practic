@@ -1,0 +1,13 @@
+- name: Генерим файл инвентаризации на хосте
+  ansible.builtin.template:
+    src: /home/ansible/inventoryzi/roles/inventory/templates/inventory.txt.j2
+    dest: /var/inventory-{{ ansible_hostname }}.txt
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Забираем файл инвентаризации на сервер Ansible
+  ansible.builtin.fetch:
+    src: /var/inventory-{{ ansible_hostname }}.txt
+    dest: /home/ansible/srv/inventorys/{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}/           # локальная папка на контроллере
+    flat: yes        

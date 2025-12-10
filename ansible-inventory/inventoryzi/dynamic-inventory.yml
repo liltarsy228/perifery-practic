@@ -1,0 +1,4 @@
+plugin: community.general.nmap
+strict: false
+address: 192.168.35.0/24
+exclude: 192.168.35.1

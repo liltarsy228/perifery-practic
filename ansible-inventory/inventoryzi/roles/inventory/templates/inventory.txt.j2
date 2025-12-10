@@ -1,0 +1,29 @@
+Дата сбора информации: {{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}
+Время: {{ ansible_date_time.time }}
+
+Файл инвентаризации компьютера {{ ansible_hostname }}
+
+Информация:
+	IP-address: {{ ansible_default_ipv4.address }}
+	HOSTNAME: {{ ansible_hostname }}
+	FQDN: {{ ansible_fqdn }}
+	OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+	DISTRIBUTIVE: {{ ansible_os_family }}
+	Архитектура: {{ ansible_architecture }}
+	Процессор: {{ ansible_processor_vcpus }} ядер
+	Память: {{ ansible_memtotal_mb }} MB
+	Диски:
+                        NVME:
+{% if ansible_devices %}
+{% for disk in ansible_devices | dict2items | selectattr('key','match','^nvme.*') | selectattr('value.removable','equalto','0') | selectattr('value.size','defined') %}
+        {{ disk.key }}: {{ disk.value.size }} ({{ disk.value.model | default('N/A') }})
+{% endfor %}
+{% endif %}
+                        SD:
+{% if ansible_devices %}
+{% for disk in ansible_devices | dict2items | selectattr('key','match','^sd.*') | selectattr('value.removable','equalto','0') | selectattr('value.size','defined') %}
+        {{ disk.key }}: {{ disk.value.size }} ({{ disk.value.model | default('N/A') }})
+{% endfor %}
+{% endif %}
+	Uptime: {{ ansible_uptime_seconds }} сек
+	Интерфейсы: {{ ansible_interfaces | join(', ') }}
