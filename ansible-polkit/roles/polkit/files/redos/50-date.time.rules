@@ -1,0 +1,3 @@
+polkit.addRule(function(action, subject) { if ((action.id.indexOf("org.freedesktop.timedate1.") == 0) || (action.id.indexOf("org.gnome.controlcenter.datetime.") == 0) || 
+(action.id.indexOf("org.mate.settingsdaemon.datetimemechanism.") == 0)) { return polkit.Result.AUTH_ADMIN; } });
+

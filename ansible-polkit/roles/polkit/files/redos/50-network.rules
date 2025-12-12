@@ -1,0 +1,1 @@
+polkit.addRule(function(action, subject) { if (action.id == "org.freedesktop.NetworkManager.settings.modify.system") { return polkit.Result.AUTH_ADMIN; } });

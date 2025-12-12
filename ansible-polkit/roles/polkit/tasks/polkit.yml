@@ -1,0 +1,15 @@
+- name: Перенос polkit правил RedOS
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/polkit-1/rules.d/
+    owner: root
+    group: root
+    mode: '0644'
+  with_fileglob:
+    - "redos/*"
+  when: ansible_facts['distribution'] == "RED"
+
+- name: Перезапуск Polkit после переноса правил
+  ansible.builtin.systemd:
+    name: polkit
+    state: restarted

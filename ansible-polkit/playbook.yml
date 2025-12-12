@@ -1,0 +1,7 @@
+- name: Polkit move rules on hosts
+  hosts: domain-hosts
+  become: true
+  become_method: sudo
+  roles:
+    - polkit
+
