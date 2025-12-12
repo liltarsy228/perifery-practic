@@ -1,0 +1,12 @@
+dn: CN=install-package,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: install-package
+name: install-package
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /usr/bin/dnf
+sudoCommand: /usr/bin/apt-get
+sudoCommand: /usr/bin/rpm
+

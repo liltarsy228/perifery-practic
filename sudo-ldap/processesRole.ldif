@@ -1,0 +1,10 @@
+dn: CN=run-processes,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: run-processes
+name: run-processes
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /usr/bin/nice
+sudoCommand: /usr/bin/kill

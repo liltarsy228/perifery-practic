@@ -1,0 +1,16 @@
+dn: CN=config-storage,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: config-storage
+name: config-storage
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /sbin/fdisk
+sudoCommand: /usr/sbin/fdisk 
+sudoCommand: /sbin/gdisk
+sudoCommand: /usr/sbin/gdisk 
+sudoCommand: /usr/bin/mount
+sudoCommand: /usr/bin/unmount
+sudoCommand: /usr/sbin/partprobe
+sudoCommand: /usr/sbin/parted

@@ -1,0 +1,12 @@
+dn: CN=run-service,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: run-service
+name: run-service
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /sbin/service
+sudoCommand: /usr/bin/systemctl
+sudoCommand: /sbin/chkconfig 
+sudoCommand: /usr/sbin/rmmod

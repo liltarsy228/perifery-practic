@@ -1,0 +1,15 @@
+dn: CN=config-net,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: config-net
+name: config-net
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /usr/sbin/ip
+sudoCommand: /usr/sbin/iptables
+sudoCommand: /sbin/gdisk
+sudoCommand: /usr/bin/nmcli
+sudoCommand: /usr/sbin/route
+sudoCommand: /usr/bin/nmtui
+sudoCommand: /usr/sbin/dhclient

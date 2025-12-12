@@ -1,0 +1,12 @@
+dn: CN=run-drivers,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: run-drivers
+name: run-drivers
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /sbin/modprobe
+sudoCommand: /usr/sbin/modprobe
+sudoCommand: /sbin/rmmod
+sudoCommand: /usr/sbin/rmmod

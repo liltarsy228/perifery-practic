@@ -1,0 +1,9 @@
+dn: CN=run-dnf,OU=sudoers,DC=perifery,DC=lo
+changetype: add
+objectClass: top
+objectClass: sudoRole
+cn: run-dnf
+name: run-dnf
+sudoUser: %opiti
+sudoHost: ALL
+sudoCommand: /usr/bin/dnf
