@@ -1,0 +1,29 @@
+- name: Where?
+  shell: pwd
+  register: where_me
+
+- name: Print Where
+  debug:
+    msg:
+      - "You in: {{ where_me.stdout }}" 
+
+- name: Создание каталога под копирование квот
+  ansible.builtin.file:
+    path: ./quote-path/
+    state: directory
+
+- name: Перенос списка пользователей и скрипта
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: ./quote-path/
+  with_fileglob:
+    - "*"
+
+- name: Копирование квот для все домнных пользователей
+  ansible.builtin.shell: cd ./quote-path/ && /bin/bash ./copy_quote.sh
+  register: quote_log
+
+- name: Вывод вывода после копирования)
+  ansible.builtin.debug:
+    msg:
+      - "Itog: {{ quote_log.stdout }}"

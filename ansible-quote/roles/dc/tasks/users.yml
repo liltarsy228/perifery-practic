@@ -1,0 +1,19 @@
+- name: Temp directory create
+  ansible.builtin.file:
+    path: /home/PERIFERY.LO/ansible/temp/
+    state: directory
+    
+- name: Создание списка пользователей
+  ansible.builtin.shell: samba-tool user list > /home/PERIFERY.LO/ansible/temp/user.list
+
+- name: Забираем файл инвентаризации на сервер Ansible
+  ansible.builtin.fetch:
+    src: /home/PERIFERY.LO/ansible/temp/user.list
+    dest: "{{ playbook_dir }}/roles/fs/files/samba_users.list"
+    flat: yes
+  
+- name: Log error to file
+  ansible.builtin.copy:
+    content: "Failed to get user list: {{ ansible_failed_result.msg | default('All good') }}"
+    dest: /home/PERIFERY.LO/ansible/temp/user_error.log
+

@@ -1,0 +1,23 @@
+- name: Gather facts
+  hosts: domain-controllers
+  gather_facts: no  # Отключаем автоматический сбор
+  tasks:
+    - name: Gather minimal facts
+      ansible.builtin.setup:
+        gather_subset: min  # Только базовые facts
+ 
+- name: Actions on domain DC
+  hosts: domain-controllers
+  become: true
+  become_method: sudo
+  gather_facts: false
+  roles:
+#    - dc
+
+- name: Actions on FS
+  hosts: file-servers
+  become: true
+  become_method: sudo
+  gather_facts: false
+  roles:
+    - fs
