@@ -1,0 +1,13 @@
+- name: Монтирование сетевых ресурсов
+  hosts: computer
+  vars:
+    USER: "zet"
+    DOMAIN_DIR: "PERIFERY.LO"
+    DOMAIN_USER: "perifery.lo"
+    NET_PATH: "//fs2/{{ USER }}"
+    END_PATH: "/home/{{ USER }}@{{ DOMAIN_USER }}/Рабочий стол/net_{{ USER }}"
+    END_PATH_FSTAB: "/home/{{ USER }}@{{ DOMAIN_USER }}/Рабочий\\040стол/net_{{ USER }}"
+  become: true
+  become_method: sudo
+  roles:
+    - mount

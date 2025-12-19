@@ -1,0 +1,24 @@
+- name: Создание каталога под сетевую папку
+  ansible.builtin.file:
+    path: "{{ END_PATH }}"
+    state: directory
+    owner: "{{ USER }}"
+    group: "Domain users"
+
+- name: Добавление записи в fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: "{{ NET_PATH }} {{ END_PATH_FSTAB }} cifs rw,sec=krb5,_netdev,nofail,domain={{ DOMAIN_DIR }},username={{ USER }} 0 0"
+    state: present
+    create: no
+    backup: true
+
+- name: Дальнейшие действия
+  ansible.builtin.debug:
+    msg: |
+      Получите билет для {{ USER }} от привилегированного пользователя с помощью:
+        sudo kinit {{ USER }}
+      Затем выполните:
+        sudo systemctl daemon-reload
+        sudo mount -a
+

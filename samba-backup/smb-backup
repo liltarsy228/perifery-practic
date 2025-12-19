@@ -1,0 +1,36 @@
+#!/bin/bash
+
+date="$(date +%F_%H-%M-%S)"
+DC="nas"
+USER="backup_user"
+BACKUP_PATH="/home/PERIFERY.LO/backup_user/backup_dir/${date}-back"
+SAMBA_PASS="Avotqwerty1!"
+REZERV_DC="rezerv"
+
+mkdir -p "${BACKUP_PATH}"
+
+echo "${date} Start backup..." >> /var/log/samba/log.samba
+
+if samba-tool dbcheck --cross-ncs | grep '0 errors'; then 
+	echo "Ошибок базы данных не найдено. Создается offline резервная копия данных.." >> /var/log/samba/log.samba
+
+	samba-tool domain backup offline --targetdir="${BACKUP_PATH}" 2>> "/var/log/samba/backup_offline.error"
+
+else
+	echo "Найдены ошибки базы данных. Будут созданы 2 версии резервной копии.." >> /var/log/samba/log.samba
+
+	echo "Создается offline резервная копия.."
+	samba-tool domain backup offline --targetdir="${BACKUP_PATH}"
+
+	echo "Создается online резервная копия.."
+	echo "$SAMBA_PASS" | samba-tool domain backup online --targetdir="${BACKUP_PATH}" --server="${DC}" -U "${USER}" 2>> "/var/log/samba/backup_online.error"
+fi
+
+
+#Пересылка на удаленный сервер
+if nc -z -v -w 3 "${REZERV_DC}" 22; then
+	echo "Перенос на удаленный серевер ${REZERV_DC}.." >> /var/log/samba/log.samba
+	rsync -avz "${BACKUP_PATH}" -e "ssh -p 22" backup_user@"${REZERV_DC}":/home/backup_user/backups/
+else
+	echo "${REZERV_DC} недоступен. Пересылка невозможна" >> /var/log/samba/log.samba
+fi
